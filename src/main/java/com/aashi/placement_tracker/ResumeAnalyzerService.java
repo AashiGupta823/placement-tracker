@@ -17,7 +17,7 @@ public class ResumeAnalyzerService {
 
         // Extract text from PDF
         PDDocument document = PDDocument.load(
-            resumeFile.getInputStream());
+            resumeFile.getBytes());
         PDFTextStripper stripper = new PDFTextStripper();
         String resumeText = stripper.getText(document)
             .toLowerCase();
