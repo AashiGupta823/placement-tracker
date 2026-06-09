@@ -3,7 +3,7 @@
 A full-stack web application to track job applications during placement season with an AI-powered resume analyzer.
 
 ## 🚀 Live Demo
-Coming soon...
+[Click here to view live project](https://placement-tracker-phi-two.vercel.app)
 
 ## 🛠️ Tech Stack
 - **Backend:** Java, Spring Boot, REST API, Maven
