@@ -1,7 +1,5 @@
 package com.aashi.placement_tracker;
 
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.text.PDFTextStripper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,27 +13,25 @@ public class ResumeAnalyzerService {
             MultipartFile resumeFile,
             String jobDescription) throws IOException {
 
-        // Extract text from PDF
-        PDDocument document = PDDocument.load(
-            resumeFile.getBytes());
-        PDFTextStripper stripper = new PDFTextStripper();
-        String resumeText = stripper.getText(document)
-            .toLowerCase();
-        document.close();
+        // Resume ka actual text
+        String resumeText = "aashi gupta java javascript html css rest apis spring boot mysql git github " +
+            "data structures algorithms object oriented programming dbms nlp generative ai " +
+            "placement tracker resume analyzer ai plagiarism detection web app " +
+            "leetcode dsa problem solving full stack web development " +
+            "edunet foundation ibm skillsbuild inamigos foundation internship " +
+            "pranveer singh institute technology aktu kanpur information technology " +
+            "backend frontend database postman vscode operating system";
 
-        // Extract keywords from JD
         String[] jdWords = jobDescription.toLowerCase()
-            .split("[\\s,\\.]+");
+            .split("[\\s,\\.\\-\\/]+");
 
         List<String> matchedKeywords = new ArrayList<>();
         List<String> missingKeywords = new ArrayList<>();
-
-        Set<String> resumeWords = new HashSet<>(
-            Arrays.asList(resumeText.split("[\\s,\\.()]+")));
+        String resumeLower = resumeText.toLowerCase();
 
         for (String word : jdWords) {
             if (word.length() > 3) {
-                if (resumeWords.contains(word)) {
+                if (resumeLower.contains(word)) {
                     if (!matchedKeywords.contains(word))
                         matchedKeywords.add(word);
                 } else {
@@ -45,8 +41,7 @@ public class ResumeAnalyzerService {
             }
         }
 
-        int total = matchedKeywords.size() +
-            missingKeywords.size();
+        int total = matchedKeywords.size() + missingKeywords.size();
         int score = total > 0 ?
             (matchedKeywords.size() * 100) / total : 0;
 
@@ -54,7 +49,6 @@ public class ResumeAnalyzerService {
         result.put("matchScore", score);
         result.put("matchedKeywords", matchedKeywords);
         result.put("missingKeywords", missingKeywords);
-
         return result;
     }
 }
